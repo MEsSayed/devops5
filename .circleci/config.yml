@@ -1,0 +1,26 @@
+version: 2.1
+
+jobs:
+  create_infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      
+      - aws-cli/setup:
+          aws-secret-access-key: Y4OaqNmfGEo9i1mFCBCHpLEqDOtPoT9oMYcSypZ9 
+          aws-access-key-id: AKIA4CY5SGZYKGW3WHNQ 
+          aws-region: us-east-1 
+      
+      
+      
+      - run:
+          name: Ensure backend infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name my-stack \
+workflows:
+  my_workflow:
+    jobs:
+      - create_infrastructure
